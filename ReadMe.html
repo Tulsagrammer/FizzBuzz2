@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Unconditional FizzBuzz</title>
+
+<style type="text/css">
+table {
+   border-collapse: collapse;
+}
+table, th, td {	
+  border: 1px solid black;
+}
+th {
+	background-color: #0FF;
+}
+</style>
+
+</head>
+
+<body>
+<h1>Unconditional FizzBuzz!</h1>
+
+<p>The &quot;secret&quot; to Unconditional FizzBuzz is modular arithmetic. For any number V, there are three possible values of V mod 3: 0,1 and 2. There are five possible values of V mod 5: 0, 1, 2, 3 and 4. Combined, this gives 15 possible combinations of the two. Mathematically, we can create unique values for these 15 combinations by the formula X = (V mod 3) * 5 + (V mod 5). The following table shows this for the numbers 1 through 15:</p>
+
+<table width="400">
+  <tbody>
+  <tr>
+    <th align="right">Value (V)</th>
+    <th align="right">X = V mod 3</th>
+    <th align="right">Y = V mod 5</th>
+    <th align="right">X * 5 + Y</th>
+    <th></th>
+  </tr>
+  <tr>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">6</td>
+    <td><br>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">2</td>
+    <td align="right">2</td>
+    <td align="right">2</td>
+    <td align="right">12</td>
+    <td><br>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">3</td>
+    <td align="right">0</td>
+    <td align="right">3</td>
+    <td align="right">3</td>
+    <td>Fizz</td>
+  </tr>
+  <tr>
+    <td align="right">4</td>
+    <td align="right">1</td>
+    <td align="right">4</td>
+    <td align="right">9</td>
+    <td><br>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">5</td>
+    <td align="right">2</td>
+    <td align="right">0</td>
+    <td align="right">10</td>
+    <td>Buzz</td>
+  </tr>
+  <tr>
+    <td align="right">6</td>
+    <td align="right">0</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td>Fizz</td>
+  </tr>
+  <tr>
+    <td align="right">7</td>
+    <td align="right">1</td>
+    <td align="right">2</td>
+    <td align="right">7</td>
+    <td><br>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">8</td>
+    <td align="right">2</td>
+    <td align="right">3</td>
+    <td align="right">13</td>
+    <td><br>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">9</td>
+    <td align="right">0</td>
+    <td align="right">4</td>
+    <td align="right">4</td>
+    <td>Fizz</td>
+  </tr>
+  <tr>
+    <td align="right">10</td>
+    <td align="right">1</td>
+    <td align="right">0</td>
+    <td align="right">5</td>
+    <td>Buzz</td>
+  </tr>
+  <tr>
+    <td align="right">11</td>
+    <td align="right">2</td>
+    <td align="right">1</td>
+    <td align="right">11</td>
+    <td><br>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">12</td>
+    <td align="right">0</td>
+    <td align="right">2</td>
+    <td align="right">2</td>
+    <td>Fizz</td>
+  </tr>
+  <tr>
+    <td align="right">13</td>
+    <td align="right">1</td>
+    <td align="right">3</td>
+    <td align="right">8</td>
+    <td><br>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">14</td>
+    <td align="right">2</td>
+    <td align="right">4</td>
+    <td align="right">14</td>
+    <td><br>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">15</td>
+    <td align="right">0</td>
+    <td align="right">0</td>
+    <td align="right">0</td>
+    <td>FizzBuzz</td>
+  </tr>
+</tbody>
+</table>
+<p>We can sort the table to show the relationships between the mod values a bit more clearly:</p>
+
+<table width="400">
+  <tbody>
+    <tr>
+      <th align="right">Value (V)</th>
+      <th align="right">X = V mod 3</th>
+      <th align="right">Y = V mod 5</th>
+      <th align="right">X * 5 + Y</th>
+      <th></th>
+    </tr>
+    <tr>
+      <td align="right">15</td>
+      <td align="right">0</td>
+      <td align="right">0</td>
+      <td align="right">0</td>
+      <td>FizzBuzz</td>
+    </tr>
+    <tr>
+      <td align="right">6</td>
+      <td align="right">0</td>
+      <td align="right">1</td>
+      <td align="right">1</td>
+      <td>Fizz</td>
+    </tr>
+    <tr>
+      <td align="right">12</td>
+      <td align="right">0</td>
+      <td align="right">2</td>
+      <td align="right">2</td>
+      <td>Fizz</td>
+    </tr>
+    <tr>
+      <td align="right">3</td>
+      <td align="right">0</td>
+      <td align="right">3</td>
+      <td align="right">3</td>
+      <td>Fizz</td>
+    </tr>
+    <tr>
+      <td align="right">9</td>
+      <td align="right">0</td>
+      <td align="right">4</td>
+      <td align="right">4</td>
+      <td>Fizz</td>
+    </tr>
+    <tr>
+      <td align="right">10</td>
+      <td align="right">1</td>
+      <td align="right">0</td>
+      <td align="right">5</td>
+      <td>Buzz</td>
+    </tr>
+    <tr>
+      <td align="right">1</td>
+      <td align="right">1</td>
+      <td align="right">1</td>
+      <td align="right">6</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">7</td>
+      <td align="right">1</td>
+      <td align="right">2</td>
+      <td align="right">7</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">13</td>
+      <td align="right">1</td>
+      <td align="right">3</td>
+      <td align="right">8</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">4</td>
+      <td align="right">1</td>
+      <td align="right">4</td>
+      <td align="right">9</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">5</td>
+      <td align="right">2</td>
+      <td align="right">0</td>
+      <td align="right">10</td>
+      <td>Buzz</td>
+    </tr>
+    <tr>
+      <td align="right">11</td>
+      <td align="right">2</td>
+      <td align="right">1</td>
+      <td align="right">11</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">2</td>
+      <td align="right">2</td>
+      <td align="right">2</td>
+      <td align="right">12</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">8</td>
+      <td align="right">2</td>
+      <td align="right">3</td>
+      <td align="right">13</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">14</td>
+      <td align="right">2</td>
+      <td align="right">4</td>
+      <td align="right">14</td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>You can easily see that four of these combinations indicate a number divisible by 3 but <em>not</em> 5; two of these combinations indicate a number divisible by 5 but <em>not</em> 3 and a single combination indicating a number divisible by <em>both</em> 3 and 5.</p>
+<p>Finally, we can easily see from the &quot;X * 5 + Y&quot; column that the value computed from the two mod results can be used to index into a table of &quot;tags&quot; that can be used to identify the &quot;Fizziness&quot; of a value!</p>
+</body>
+
+</html>
