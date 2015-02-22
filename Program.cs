@@ -53,6 +53,12 @@ namespace FizzBuzz2
 
         private static readonly string[] Tags2 = {"", "Fizz", "Buzz", "FizzBuzz"};
 
+        private static string[][] fizzbuzz = new String[][]
+        {
+            new String[] { "FizzBuzz", "Fizz" },
+            new String[] { "Buzz", "" },
+        };
+
 
         static void Main(string[] args)
         {
@@ -66,9 +72,56 @@ namespace FizzBuzz2
             for (var i = 1; i <= 100; i++)
                 Console.WriteLine("{0,3} {1}", i, Tags2[TagsIndex[i % 3, i % 5]]);
 
+            // This is another alternative, suggested by Sean W.
+            Console.WriteLine();
+            int n = 100;
+            for (int i = 1; i <= n; ++i)
+            {
+                fizzbuzz[1][1] = ""+i;
+                int f = (int)Math.Ceiling((i % 3) / (double)n);
+                int b = (int)Math.Ceiling((i % 5) / (double)n);
+                Console.WriteLine(i + ": " + fizzbuzz[f][b]);
+            }
+
+            // Now for the qrotesquely over-engineered version!
+            new Program().FBBThisThing(100);
+
             Console.WriteLine();
             Console.Write(@"Press any key to continue...");
             Console.ReadKey(true);
+        }
+
+
+        public string[] TextArray = new[] { "Beer!!!", "Buzz", "Fizz", "" };
+
+        public void FBBThisThing(int upperRange)
+        {
+            var foo = Enumerable.Range(1, upperRange);
+
+            foreach (var i in foo)
+            {
+                TextArray[3] = i.ToString();
+                var a = GetArrayIndexes(i, upperRange);
+                //Console.WriteLine("{0}, {1}, {2}", i, a.Item1, a.Item2);
+                PrintValue(i, GetText(a));
+            };
+        }
+
+        public Tuple<int, int> GetArrayIndexes(int i, int upperRange)
+        {
+            var a = (int)Math.Ceiling((double)i % 3 / upperRange);
+            var b = (int)Math.Ceiling((double)i % 5 / upperRange) * 2;
+            return new Tuple<int, int>(a, b);
+        }
+
+        public string GetText(Tuple<int, int> a)
+        {
+            return TextArray[a.Item1 + a.Item2];
+        }
+
+        private void PrintValue(int value, string text)
+        {
+            Console.WriteLine("{0}", text);
         }
     }
 }
