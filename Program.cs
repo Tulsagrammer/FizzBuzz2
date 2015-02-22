@@ -27,10 +27,12 @@ namespace FizzBuzz2
 {
     class Program
     {
+        private const int Limit = 1000000;
+
         static void Main(string[] args)
         {
-            TestRunner(EricsFineSolution, 100, "EricsFineSolution");
-            TestRunner(new Program().GrotesquelyOverengineeredSolution, 100, "GrotesquelyOverengineeredSolution");
+            TestRunner(EricsFineSolution, Limit, "EricsFineSolution");
+            TestRunner(new Program().GrotesquelyOverengineeredSolution, Limit, "GrotesquelyOverengineeredSolution");
 
             Console.WriteLine();
             Console.Write(@"Press any key to continue...");
@@ -39,7 +41,10 @@ namespace FizzBuzz2
 
         private static void TestRunner(Action<int> testAction, int upperRange, string tag)
         {
+            var start = Process.GetCurrentProcess().UserProcessorTime;
             testAction(upperRange);
+            var procTime = Process.GetCurrentProcess().UserProcessorTime.Subtract(start);
+            Console.WriteLine(@"ProcTime is {0} for {1}", procTime.ToString(), tag);
         }
 
 
