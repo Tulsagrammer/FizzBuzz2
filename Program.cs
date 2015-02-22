@@ -17,14 +17,34 @@ containing NO conditionals.
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FizzBuzz2
 {
     class Program
     {
+        static void Main(string[] args)
+        {
+            TestRunner(EricsFineSolution, 100, "EricsFineSolution");
+            TestRunner(new Program().GrotesquelyOverengineeredSolution, 100, "GrotesquelyOverengineeredSolution");
+
+            Console.WriteLine();
+            Console.Write(@"Press any key to continue...");
+            Console.ReadKey(true);
+        }
+
+        private static void TestRunner(Action<int> testAction, int upperRange, string tag)
+        {
+            testAction(upperRange);
+        }
+
+
+        #region Eric's Fine Solution
+
         private static readonly string[] Tags =
         {
             @"FizzBuzz",
@@ -51,16 +71,9 @@ namespace FizzBuzz2
             {2, 0, 0, 0, 0}         // V mod 3 = 2
         };
 
-        private static readonly string[] Tags2 = {"", "Fizz", "Buzz", "FizzBuzz"};
+        private static readonly string[] Tags2 = { "", "Fizz", "Buzz", "FizzBuzz" };
 
-        private static string[][] fizzbuzz = new String[][]
-        {
-            new String[] { "FizzBuzz", "Fizz" },
-            new String[] { "Buzz", "" },
-        };
-
-
-        static void Main(string[] args)
+        private static void EricsFineSolution(int upperRange)
         {
             // Index directly into the "Tags" table.
             for (var i = 1; i <= 100; i++)
@@ -71,30 +84,40 @@ namespace FizzBuzz2
             Console.WriteLine();
             for (var i = 1; i <= 100; i++)
                 Console.WriteLine("{0,3} {1}", i, Tags2[TagsIndex[i % 3, i % 5]]);
+        }
 
+        #endregion
+
+        #region An Over-Engineered Solution
+
+        private static string[][] fizzbuzz = new String[][]
+        {
+            new String[] { "FizzBuzz", "Fizz" },
+            new String[] { "Buzz", "" },
+        };
+
+        private static void AnOverEngineeredSolution(int upperRange)
+        {
             // This is another alternative, suggested by Sean W.
             Console.WriteLine();
             int n = 100;
             for (int i = 1; i <= n; ++i)
             {
-                fizzbuzz[1][1] = ""+i;
+                fizzbuzz[1][1] = "" + i;
                 int f = (int)Math.Ceiling((i % 3) / (double)n);
                 int b = (int)Math.Ceiling((i % 5) / (double)n);
                 Console.WriteLine(i + ": " + fizzbuzz[f][b]);
             }
 
-            // Now for the qrotesquely over-engineered version!
-            new Program().FBBThisThing(100);
-
-            Console.WriteLine();
-            Console.Write(@"Press any key to continue...");
-            Console.ReadKey(true);
         }
 
+        #endregion
 
-        public string[] TextArray = new[] { "Beer!!!", "Buzz", "Fizz", "" };
+        #region Grotesquely Over-Engineered Solution
 
-        public void FBBThisThing(int upperRange)
+        private string[] TextArray = new[] { "Beer!!!", "Buzz", "Fizz", "" };
+
+        private void GrotesquelyOverengineeredSolution(int upperRange)
         {
             var foo = Enumerable.Range(1, upperRange);
 
@@ -109,6 +132,9 @@ namespace FizzBuzz2
 
         public Tuple<int, int> GetArrayIndexes(int i, int upperRange)
         {
+            var t1 = (double) i%3;
+            var t2 = t1 / upperRange;
+            var t3 = (int) Math.Ceiling(t2);
             var a = (int)Math.Ceiling((double)i % 3 / upperRange);
             var b = (int)Math.Ceiling((double)i % 5 / upperRange) * 2;
             return new Tuple<int, int>(a, b);
@@ -123,5 +149,7 @@ namespace FizzBuzz2
         {
             Console.WriteLine("{0}", text);
         }
+
+        #endregion
     }
 }
