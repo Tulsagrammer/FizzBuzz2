@@ -58,7 +58,6 @@ namespace FizzBuzz2
 
             Console.WriteLine();
             Console.Error.WriteLine(@"Results:");
-
             ProcTimes.ForEach(t => Console.Error.WriteLine(@"{0}  {1}", t.Item1, t.Item2));
             Console.Error.WriteLine(@"Each test performed {0} times with max range of {1}.",
                         MaxLoops, UpperRangeLimit);
