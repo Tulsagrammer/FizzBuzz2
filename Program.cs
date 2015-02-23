@@ -54,21 +54,9 @@ namespace FizzBuzz2
 
         private static readonly string[] Tags =
         {
-            @"FizzBuzz",
-            @"Fizz",
-            @"Fizz",
-            @"Fizz",
-            @"Fizz",
-            @"Buzz",
-            @"",
-            @"",
-            @"",
-            @"",
-            @"Buzz",
-            @"",
-            @"",
-            @"",
-            @""
+            @"FizzBuzz", @"Fizz", @"Fizz", @"Fizz", @"Fizz",    // V mod 3 = 0
+            @"Buzz",     @"",     @"",     @"",     @"",        // V mod 3 = 1
+            @"Buzz",     @"",     @"",     @"",     @""         // V mod 3 = 2
         };
 
         private static readonly byte[,] TagsIndex =
