@@ -25,32 +25,62 @@ using System.Threading.Tasks;
 
 namespace FizzBuzz2
 {
+    internal delegate void xxx(Tuple<TimeSpan, string> pTuple);
+
     class Program
     {
-        private const int Limit = 20;
+        private static int UpperRangeLimit;
+        private static int MaxLoops;
+        private static readonly List<Tuple<TimeSpan, string>>
+            ProcTimes = new List<Tuple<TimeSpan, string>>();
+
 
         static void Main(string[] args)
         {
-            TestRunner(EricsFineSolution, Limit, "EricsFineSolution");
-            TestRunner(MildlyCleverSolution, Limit, "MildlyCleverSolution");
+            // Check for presence of command line parameters.
+            if (! args.Any())
+            {
+                Console.WriteLine(@"Yo, hoser! What's the upper range to test?");
+                return;
+            }
+            if (args.Count() < 2)
+            {
+                Console.WriteLine(@"Yo, hoser! How many iterations of each test?");
+                return;
+            }
+
+            UpperRangeLimit = Convert.ToInt32(args[0]);
+            MaxLoops = Convert.ToInt32(args[1]);
+
+            TestRunner(EricsFineSolution1, "EricsFineSolution1");
+            TestRunner(EricsFineSolution2, "EricsFineSolution2");
+            TestRunner(MildlyCleverSolution, "MildlyCleverSolution");
             TestRunner(new Program().GrotesquelyOverengineeredSolution,
-                        Limit, "GrotesquelyOverengineeredSolution");
+                        "GrotesquelyOverengineeredSolution");
 
             Console.WriteLine();
-            Console.Write(@"Press any key to continue...");
+            Console.Error.WriteLine(@"Results:");
+
+            ProcTimes.ForEach(t => Console.Error.WriteLine(@"{0}  {1}", t.Item1, t.Item2));
+            Console.Error.WriteLine(@"Each test performed {0} times with max range of {1}.",
+                        MaxLoops, UpperRangeLimit);
+
+            Console.Error.WriteLine();
+            Console.Error.Write(@"Press any key to continue...");
             Console.ReadKey(true);
         }
 
-        private static void TestRunner(Action<int> testAction, int upperRange, string tag)
+        private static void TestRunner(Action<int> testAction, string tag)
         {
             var start = Process.GetCurrentProcess().UserProcessorTime;
-            testAction(upperRange);
+            for (var i = 0; i < MaxLoops; i++)
+                testAction(UpperRangeLimit);
             var procTime = Process.GetCurrentProcess().UserProcessorTime.Subtract(start);
-            Console.WriteLine(@"ProcTime is {0} for {1}", procTime.ToString(), tag);
+            ProcTimes.Add(Tuple.Create(procTime, tag));
         }
 
 
-        #region Eric's Fine Solution
+        #region Eric's Fine Solutions
 
         private static readonly string[] Tags =
         {
@@ -68,12 +98,15 @@ namespace FizzBuzz2
 
         private static readonly string[] Tags2 = { "", "Fizz", "Buzz", "FizzBuzz" };
 
-        private static void EricsFineSolution(int upperRange)
+        private static void EricsFineSolution1(int upperRange)
         {
             // Index directly into the "Tags" table.
             for (var i = 1; i <= upperRange; i++)
                 Console.WriteLine("{0,3} {1}", i, Tags[(i % 3) * 5 + i % 5]);
+        }
 
+        private static void EricsFineSolution2(int upperRange)
+        {
             // Index into the "Tags2" table via the "TagsIndex" table.
             // Inspired by a suggestion from Sean W.
             Console.WriteLine();
@@ -83,7 +116,7 @@ namespace FizzBuzz2
 
         #endregion
 
-        #region An Over-Engineered Solution
+        #region A Mildly-Clever Solution
 
         private static string[][] fizzbuzz = new String[][]
         {
@@ -109,7 +142,7 @@ namespace FizzBuzz2
 
         #region Grotesquely Over-Engineered Solution
 
-        private string[] TextArray = new[] { "Beer!!!", "Buzz", "Fizz", "" };
+        private readonly string[] TextArray = new[] { "Beer!!!", "Buzz", "Fizz", "" };
 
         private void GrotesquelyOverengineeredSolution(int upperRange)
         {
@@ -119,18 +152,14 @@ namespace FizzBuzz2
             {
                 TextArray[3] = i.ToString();
                 var a = GetArrayIndexes(i, upperRange);
-                //Console.WriteLine("{0}, {1}, {2}", i, a.Item1, a.Item2);
                 PrintValue(i, GetText(a));
             };
         }
 
         public Tuple<int, int> GetArrayIndexes(int i, int upperRange)
         {
-            var t1 = (double) i%3;
-            var t2 = t1 / upperRange;
-            var t3 = (int) Math.Ceiling(t2);
-            var a = (int)Math.Ceiling((double)i % 3 / upperRange);
-            var b = (int)Math.Ceiling((double)i % 5 / upperRange) * 2;
+            var a = (int)Math.Ceiling((double)i % 3 / 100);
+            var b = (int)Math.Ceiling((double)i % 5 / 100) * 2;
             return new Tuple<int, int>(a, b);
         }
 
