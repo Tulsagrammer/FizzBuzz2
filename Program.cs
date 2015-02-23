@@ -27,12 +27,14 @@ namespace FizzBuzz2
 {
     class Program
     {
-        private const int Limit = 1000000;
+        private const int Limit = 20;
 
         static void Main(string[] args)
         {
             TestRunner(EricsFineSolution, Limit, "EricsFineSolution");
-            TestRunner(new Program().GrotesquelyOverengineeredSolution, Limit, "GrotesquelyOverengineeredSolution");
+            TestRunner(MildlyCleverSolution, Limit, "MildlyCleverSolution");
+            TestRunner(new Program().GrotesquelyOverengineeredSolution,
+                        Limit, "GrotesquelyOverengineeredSolution");
 
             Console.WriteLine();
             Console.Write(@"Press any key to continue...");
@@ -81,13 +83,13 @@ namespace FizzBuzz2
         private static void EricsFineSolution(int upperRange)
         {
             // Index directly into the "Tags" table.
-            for (var i = 1; i <= 100; i++)
+            for (var i = 1; i <= upperRange; i++)
                 Console.WriteLine("{0,3} {1}", i, Tags[(i % 3) * 5 + i % 5]);
 
             // Index into the "Tags2" table via the "TagsIndex" table.
             // Inspired by a suggestion from Sean W.
             Console.WriteLine();
-            for (var i = 1; i <= 100; i++)
+            for (var i = 1; i <= upperRange; i++)
                 Console.WriteLine("{0,3} {1}", i, Tags2[TagsIndex[i % 3, i % 5]]);
         }
 
@@ -97,20 +99,19 @@ namespace FizzBuzz2
 
         private static string[][] fizzbuzz = new String[][]
         {
-            new String[] { "FizzBuzz", "Fizz" },
-            new String[] { "Buzz", "" },
+            new[] { "FizzBuzz", "Fizz" },
+            new[] { "Buzz", "" },
         };
 
-        private static void AnOverEngineeredSolution(int upperRange)
+        private static void MildlyCleverSolution(int upperRange)
         {
             // This is another alternative, suggested by Sean W.
             Console.WriteLine();
-            int n = 100;
-            for (int i = 1; i <= n; ++i)
+            for (var i = 1; i <= upperRange; ++i)
             {
                 fizzbuzz[1][1] = "" + i;
-                int f = (int)Math.Ceiling((i % 3) / (double)n);
-                int b = (int)Math.Ceiling((i % 5) / (double)n);
+                var f = (int)Math.Ceiling((i % 3) / (double) 100);
+                var b = (int)Math.Ceiling((i % 5) / (double) 100);
                 Console.WriteLine(i + ": " + fizzbuzz[f][b]);
             }
 
