@@ -25,8 +25,6 @@ using System.Threading.Tasks;
 
 namespace FizzBuzz2
 {
-    internal delegate void xxx(Tuple<TimeSpan, string> pTuple);
-
     class Program
     {
         private static int UpperRangeLimit;
