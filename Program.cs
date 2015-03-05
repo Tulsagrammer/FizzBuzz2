@@ -142,8 +142,8 @@ namespace FizzBuzz2
 
         private static readonly string[][] fizzbuzz2 =
         {
-            new[] { "{0}: FizzBuzz", "{0}: Fizz" },
-            new[] { "{0}: Buzz", "{0}: {0}" },
+            new[] { @"{0}: FizzBuzz", @"{0}: Fizz" },
+            new[] { @"{0}: Buzz",     @"{0}: {0}"  },
         };
 
         private static void MildlyCleverSolution2(int upperRange)
