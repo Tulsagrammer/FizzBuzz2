@@ -50,9 +50,10 @@ namespace FizzBuzz2
             UpperRangeLimit = Convert.ToInt32(args[0]);
             MaxLoops = Convert.ToInt32(args[1]);
 
-            TestRunner(EricsFineSolution1, "EricsFineSolution1");
-            TestRunner(EricsFineSolution2, "EricsFineSolution2");
-            TestRunner(MildlyCleverSolution, "MildlyCleverSolution");
+            TestRunner(EricsFineSolution1,  "EricsFineSolution1");
+            TestRunner(EricsFineSolution2,  "EricsFineSolution2");
+            TestRunner(MildlyCleverSolution1, "MildlyCleverSolution1");
+            TestRunner(MildlyCleverSolution2, "MildlyCleverSolution2");
             TestRunner(new Program().GrotesquelyOverengineeredSolution,
                         "GrotesquelyOverengineeredSolution");
 
@@ -121,7 +122,7 @@ namespace FizzBuzz2
             new[] { "Buzz", "" },
         };
 
-        private static void MildlyCleverSolution(int upperRange)
+        private static void MildlyCleverSolution1(int upperRange)
         {
             // This is another alternative, suggested by Sean W.
             Console.WriteLine();
@@ -131,6 +132,30 @@ namespace FizzBuzz2
                 var f = (int)Math.Ceiling((i % 3) / (double) 100);
                 var b = (int)Math.Ceiling((i % 5) / (double) 100);
                 Console.WriteLine(i + ": " + fizzbuzz[f][b]);
+            }
+
+        }
+
+        #endregion
+
+        #region A Modified Mildly-Clever Solution
+
+        private static readonly string[][] fizzbuzz2 =
+        {
+            new[] { "{0}: FizzBuzz", "{0}: Fizz" },
+            new[] { "{0}: Buzz", "{0}: {0}" },
+        };
+
+        private static void MildlyCleverSolution2(int upperRange)
+        {
+            // This is another alternative, suggested by Sean W.
+            Console.WriteLine();
+            for (var i = 1; i <= upperRange; ++i)
+            {
+                fizzbuzz[1][1] = "" + i;
+                var f = (int)Math.Ceiling((i % 3) / (double)100);
+                var b = (int)Math.Ceiling((i % 5) / (double)100);
+                Console.WriteLine(String.Format(fizzbuzz2[f][b], i));
             }
 
         }
