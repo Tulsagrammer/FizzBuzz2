@@ -152,7 +152,6 @@ namespace FizzBuzz2
             Console.WriteLine();
             for (var i = 1; i <= upperRange; ++i)
             {
-                fizzbuzz[1][1] = "" + i;
                 var f = (int)Math.Ceiling((i % 3) / (double)100);
                 var b = (int)Math.Ceiling((i % 5) / (double)100);
                 Console.WriteLine(String.Format(fizzbuzz2[f][b], i));
@@ -170,6 +169,7 @@ namespace FizzBuzz2
         {
             var foo = Enumerable.Range(1, upperRange);
 
+            Console.WriteLine();
             foreach (var i in foo)
             {
                 TextArray[3] = i.ToString();
