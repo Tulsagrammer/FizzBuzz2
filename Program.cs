@@ -50,8 +50,8 @@ namespace FizzBuzz2
             UpperRangeLimit = Convert.ToInt32(args[0]);
             MaxLoops = Convert.ToInt32(args[1]);
 
-            TestRunner(EricsFineSolution1,  "EricsFineSolution1");
-            TestRunner(EricsFineSolution2,  "EricsFineSolution2");
+            TestRunner(EricsFineSolution1,    "EricsFineSolution1");
+            TestRunner(EricsFineSolution2,    "EricsFineSolution2");
             TestRunner(MildlyCleverSolution1, "MildlyCleverSolution1");
             TestRunner(MildlyCleverSolution2, "MildlyCleverSolution2");
             TestRunner(new Program().GrotesquelyOverengineeredSolution,
