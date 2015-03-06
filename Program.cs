@@ -18,6 +18,7 @@ containing NO conditionals.
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -27,8 +28,8 @@ namespace FizzBuzz2
 {
     class Program
     {
-        private static int UpperRangeLimit;
-        private static int MaxLoops;
+        private static int _upperRangeLimit;
+        private static int _maxLoops;
         private static readonly List<Tuple<TimeSpan, string>>
             ProcTimes = new List<Tuple<TimeSpan, string>>();
 
@@ -47,8 +48,8 @@ namespace FizzBuzz2
                 return;
             }
 
-            UpperRangeLimit = Convert.ToInt32(args[0]);
-            MaxLoops = Convert.ToInt32(args[1]);
+            _upperRangeLimit = Convert.ToInt32(args[0]);
+            _maxLoops = Convert.ToInt32(args[1]);
 
             TestRunner(EricsFineSolution1,    "EricsFineSolution1");
             TestRunner(EricsFineSolution2,    "EricsFineSolution2");
@@ -61,7 +62,7 @@ namespace FizzBuzz2
             Console.Error.WriteLine(@"Results:");
             ProcTimes.ForEach(t => Console.Error.WriteLine(@"{0}  {1}", t.Item1, t.Item2));
             Console.Error.WriteLine(@"Each test performed {0} times with max range of {1}.",
-                        MaxLoops, UpperRangeLimit);
+                        _maxLoops, _upperRangeLimit);
 
             Console.Error.WriteLine();
             Console.Error.Write(@"Press any key to continue...");
@@ -71,8 +72,8 @@ namespace FizzBuzz2
         private static void TestRunner(Action<int> testAction, string tag)
         {
             var start = Process.GetCurrentProcess().UserProcessorTime;
-            for (var i = 0; i < MaxLoops; i++)
-                testAction(UpperRangeLimit);
+            for (var i = 0; i < _maxLoops; i++)
+                testAction(_upperRangeLimit);
             var procTime = Process.GetCurrentProcess().UserProcessorTime.Subtract(start);
             ProcTimes.Add(Tuple.Create(procTime, tag));
         }
@@ -116,10 +117,10 @@ namespace FizzBuzz2
 
         #region A Mildly-Clever Solution
 
-        private static string[][] fizzbuzz = new String[][]
+        private static readonly string[][] Fizzbuzz =
         {
             new[] { "FizzBuzz", "Fizz" },
-            new[] { "Buzz", "" },
+            new[] { "Buzz", "" }
         };
 
         private static void MildlyCleverSolution1(int upperRange)
@@ -128,10 +129,10 @@ namespace FizzBuzz2
             Console.WriteLine();
             for (var i = 1; i <= upperRange; ++i)
             {
-                fizzbuzz[1][1] = "" + i;
+                Fizzbuzz[1][1] = "" + i;
                 var f = (int)Math.Ceiling((i % 3) / (double) 100);
                 var b = (int)Math.Ceiling((i % 5) / (double) 100);
-                Console.WriteLine(i + ": " + fizzbuzz[f][b]);
+                Console.WriteLine(i + ": " + Fizzbuzz[f][b]);
             }
 
         }
@@ -140,10 +141,10 @@ namespace FizzBuzz2
 
         #region A Modified Mildly-Clever Solution
 
-        private static readonly string[][] fizzbuzz2 =
+        private static readonly string[][] Fizzbuzz2 =
         {
             new[] { @"{0}: FizzBuzz", @"{0}: Fizz" },
-            new[] { @"{0}: Buzz",     @"{0}: {0}"  },
+            new[] { @"{0}: Buzz",     @"{0}: {0}"  }
         };
 
         private static void MildlyCleverSolution2(int upperRange)
@@ -154,7 +155,7 @@ namespace FizzBuzz2
             {
                 var f = (int)Math.Ceiling((i % 3) / (double)100);
                 var b = (int)Math.Ceiling((i % 5) / (double)100);
-                Console.WriteLine(String.Format(fizzbuzz2[f][b], i));
+                Console.WriteLine(Fizzbuzz2[f][b], i);
             }
 
         }
@@ -163,7 +164,7 @@ namespace FizzBuzz2
 
         #region Grotesquely Over-Engineered Solution
 
-        private readonly string[] TextArray = new[] { "Beer!!!", "Buzz", "Fizz", "" };
+        private readonly string[] _textArray = { "Beer!!!", "Buzz", "Fizz", "" };
 
         private void GrotesquelyOverengineeredSolution(int upperRange)
         {
@@ -172,10 +173,10 @@ namespace FizzBuzz2
             Console.WriteLine();
             foreach (var i in foo)
             {
-                TextArray[3] = i.ToString();
+                _textArray[3] = i.ToString(CultureInfo.InvariantCulture);
                 var a = GetArrayIndexes(i, upperRange);
-                PrintValue(i, GetText(a));
-            };
+                PrintValue(GetText(a));
+            }
         }
 
         public Tuple<int, int> GetArrayIndexes(int i, int upperRange)
@@ -185,12 +186,12 @@ namespace FizzBuzz2
             return new Tuple<int, int>(a, b);
         }
 
-        public string GetText(Tuple<int, int> a)
+        private string GetText(Tuple<int, int> a)
         {
-            return TextArray[a.Item1 + a.Item2];
+            return _textArray[a.Item1 + a.Item2];
         }
 
-        private void PrintValue(int value, string text)
+        private void PrintValue(string text)
         {
             Console.WriteLine("{0}", text);
         }
