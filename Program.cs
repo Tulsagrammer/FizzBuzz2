@@ -56,19 +56,37 @@ namespace FizzBuzz2
 
     public class ConsoleOutput : IFizzBuzz
     {
+        private int _upperLimit;
+        private int _maxLoops;
+
         public void Run(int upperLimit, int maxLoops)
         {
+            _upperLimit = upperLimit;
+            _maxLoops = maxLoops;
             new FizzBuzz().Run(upperLimit, maxLoops, this);
-        }
-
-        public void NumberCallback(string msg)
-        {
-            Console.WriteLine(msg);
         }
 
         public void TestNumber(int value, string tag)
         {
             Console.WriteLine(tag);
+        }
+
+        public void ResultsStart()
+        {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine(@"Results:");
+        }
+
+        public void ResultsFinish()
+        {
+            Console.WriteLine(@"Each test performed {0} times with max range of {1}.",
+                        _maxLoops, _upperLimit);
+        }
+
+        public void ResultsItem(TimeSpan timeSpan, string testFunction)
+        {
+            Console.Error.WriteLine(@"{0}  {1}", timeSpan, testFunction);
         }
     }
 }

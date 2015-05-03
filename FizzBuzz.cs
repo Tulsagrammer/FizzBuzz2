@@ -10,8 +10,10 @@ namespace FizzBuzz2
 {
     public interface IFizzBuzz
     {
-        void NumberCallback(string msg);
         void TestNumber(int value, string tag);
+        void ResultsStart();
+        void ResultsFinish();
+        void ResultsItem(TimeSpan timeSpan, string testFunction);
     }
 
 
@@ -38,12 +40,9 @@ namespace FizzBuzz2
             TestRunner(GrotesquelyOverengineeredSolution,
                         "GrotesquelyOverengineeredSolution");
 
-            _driver.NumberCallback("");
-            _driver.NumberCallback("");
-            _driver.NumberCallback(@"Results:");
-            _procTimes.ForEach(t => _driver.NumberCallback(String.Format(@"{0}  {1}", t.Item1, t.Item2)));
-            _driver.NumberCallback(String.Format(@"Each test performed {0} times with max range of {1}.",
-                        _maxLoops, _upperLimit));
+            driver.ResultsStart();
+            _procTimes.ForEach(t => _driver.ResultsItem(t.Item1, t.Item2));
+            driver.ResultsFinish();
         }
 
         private void TestRunner(Action<int> testAction, string tag)
