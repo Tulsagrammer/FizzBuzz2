@@ -49,11 +49,16 @@ namespace FizzBuzz2
             _upperRangeLimit = Convert.ToInt32(args[0]);
             _maxLoops = Convert.ToInt32(args[1]);
 
-            new FizzBuzz().Run(_upperRangeLimit, _upperRangeLimit);
+            new FizzBuzz().Run(_upperRangeLimit, _upperRangeLimit, NumberCallback);
 
             Console.Error.WriteLine();
             Console.Error.Write(@"Press any key to continue...");
             Console.ReadKey(true);
+        }
+
+        private static void NumberCallback(string msg)
+        {
+            Console.WriteLine(msg);
         }
     }
 }
