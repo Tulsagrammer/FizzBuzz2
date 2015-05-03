@@ -66,7 +66,20 @@ namespace FizzBuzz2
             new FizzBuzz().Run(upperLimit, maxLoops, this);
         }
 
-        public void TestNumber(int value, string tag)
+        public void TestStart(string testFunction)
+        {
+            var tag1 = String.Format(@"{0} tests:", testFunction);
+            var tag2 = new String('=', tag1.Length);
+            Console.WriteLine();
+            Console.WriteLine(tag1);
+            Console.WriteLine(tag2);
+        }
+
+        public void TestFinish()
+        {
+        }
+
+        public void TestItem(int value, string tag)
         {
             Console.WriteLine(tag);
         }

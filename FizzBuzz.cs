@@ -10,7 +10,9 @@ namespace FizzBuzz2
 {
     public interface IFizzBuzz
     {
-        void TestNumber(int value, string tag);
+        void TestStart(string testFunction);
+        void TestFinish();
+        void TestItem(int value, string tag);
         void ResultsStart();
         void ResultsFinish();
         void ResultsItem(TimeSpan timeSpan, string testFunction);
@@ -47,11 +49,13 @@ namespace FizzBuzz2
 
         private void TestRunner(Action<int> testAction, string tag)
         {
+            _driver.TestStart(tag);
             var start = Process.GetCurrentProcess().UserProcessorTime;
             for (var i = 0; i < _maxLoops; i++)
                 testAction(_upperLimit);
             var procTime = Process.GetCurrentProcess().UserProcessorTime.Subtract(start);
             _procTimes.Add(Tuple.Create(procTime, tag));
+            _driver.TestFinish();
         }
 
 
@@ -60,8 +64,8 @@ namespace FizzBuzz2
         private static readonly string[] Tags =
         {
             @"FizzBuzz", @"Fizz", @"Fizz", @"Fizz", @"Fizz",    // V mod 3 = 0
-            @"Buzz",     @"{0}",  @"{0}",  @"{0}",  @"{0}",        // V mod 3 = 1
-            @"Buzz",     @"{0}",  @"{0}",  @"{0}",  @"{0}"         // V mod 3 = 2
+            @"Buzz",     @"{0}",  @"{0}",  @"{0}",  @"{0}",     // V mod 3 = 1
+            @"Buzz",     @"{0}",  @"{0}",  @"{0}",  @"{0}"      // V mod 3 = 2
         };
 
         private static readonly byte[,] TagsIndex =
@@ -77,7 +81,7 @@ namespace FizzBuzz2
         {
             // Index directly into the "Tags" table.
             for (var i = 1; i <= upperRange; i++)
-                _driver.TestNumber(i, String.Format(Tags[(i % 3) * 5 + i % 5], i));
+                _driver.TestItem(i, String.Format(Tags[(i % 3) * 5 + i % 5], i));
         }
 
         private void EricsFineSolution2(int upperRange)
@@ -85,7 +89,7 @@ namespace FizzBuzz2
             // Index into the "Tags2" table via the "TagsIndex" table.
             // Inspired by a suggestion from Sean W.
             for (var i = 1; i <= upperRange; i++)
-                _driver.TestNumber(i, String.Format(Tags2[TagsIndex[i % 3, i % 5]], i));
+                _driver.TestItem(i, String.Format(Tags2[TagsIndex[i % 3, i % 5]], i));
         }
 
         #endregion
@@ -106,7 +110,7 @@ namespace FizzBuzz2
                 Fizzbuzz[1][1] = "" + i;
                 var f = (int)Math.Ceiling((i % 3) / (double)100);
                 var b = (int)Math.Ceiling((i % 5) / (double)100);
-                _driver.TestNumber(i, Fizzbuzz[f][b]);
+                _driver.TestItem(i, Fizzbuzz[f][b]);
             }
         }
 
@@ -127,7 +131,7 @@ namespace FizzBuzz2
             {
                 var f = (int)Math.Ceiling((i % 3) / (double)100);
                 var b = (int)Math.Ceiling((i % 5) / (double)100);
-                _driver.TestNumber(i, String.Format(Fizzbuzz2[f][b], i));
+                _driver.TestItem(i, String.Format(Fizzbuzz2[f][b], i));
             }
         }
 
@@ -163,7 +167,7 @@ namespace FizzBuzz2
 
         private void PrintValue(int i, string text)
         {
-            _driver.TestNumber(i, text);
+            _driver.TestItem(i, text);
         }
 
         #endregion
