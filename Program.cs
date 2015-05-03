@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,10 +29,6 @@ namespace FizzBuzz2
 {
     class Program
     {
-        private static int _upperRangeLimit;
-        private static int _maxLoops;
-
-
         static void Main(string[] args)
         {
             // Check for presence of command line parameters.
@@ -46,19 +43,32 @@ namespace FizzBuzz2
                 return;
             }
 
-            _upperRangeLimit = Convert.ToInt32(args[0]);
-            _maxLoops = Convert.ToInt32(args[1]);
+            var upperRangeLimit = Convert.ToInt32(args[0]);
+            var loopCount       = Convert.ToInt32(args[1]);
 
-            new FizzBuzz().Run(_upperRangeLimit, _upperRangeLimit, NumberCallback);
+            new ConsoleOutput().Run(upperRangeLimit, loopCount);
 
             Console.Error.WriteLine();
             Console.Error.Write(@"Press any key to continue...");
             Console.ReadKey(true);
         }
+    }
 
-        private static void NumberCallback(string msg)
+    public class ConsoleOutput : IFizzBuzz
+    {
+        public void Run(int upperLimit, int maxLoops)
+        {
+            new FizzBuzz().Run(upperLimit, maxLoops, this);
+        }
+
+        public void NumberCallback(string msg)
         {
             Console.WriteLine(msg);
+        }
+
+        public void TestNumber(int value, string tag)
+        {
+            Console.WriteLine(tag);
         }
     }
 }
