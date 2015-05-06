@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleOutput.cs" />
+    <Compile Include="ConsoleOutput.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FizzBuzz.cs" />
+    <Compile Include="HtmlOutput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

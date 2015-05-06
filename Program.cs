@@ -47,6 +47,7 @@ namespace FizzBuzz2
             var maxLoops   = Convert.ToInt32(args[1]);
 
             new ConsoleOutput().Run(upperLimit, maxLoops);
+            new HtmlOutput()   .Run(upperLimit, maxLoops);
 
             Console.Error.WriteLine();
             Console.Error.Write(@"Press any key to continue...");
