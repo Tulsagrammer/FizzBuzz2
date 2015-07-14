@@ -59,6 +59,7 @@ namespace FizzBuzz2
                         "GrotesquelyOverengineeredSolution");
 
             Console.WriteLine();
+            Console.WriteLine();
             Console.Error.WriteLine(@"Results:");
             ProcTimes.ForEach(t => Console.Error.WriteLine(@"{0}  {1}", t.Item1, t.Item2));
             Console.Error.WriteLine(@"Each test performed {0} times with max range of {1}.",
@@ -69,13 +70,18 @@ namespace FizzBuzz2
             Console.ReadKey(true);
         }
 
-        private static void TestRunner(Action<int> testAction, string tag)
+        private static void TestRunner(Action<int> testAction, string testFunctionTitle)
         {
+            var tag1 = String.Format(@"{0} tests:", testFunctionTitle);
+            var tag2 = new String('=', tag1.Length);
+            Console.WriteLine();
+            Console.WriteLine(tag1);
+            Console.WriteLine(tag2);
             var start = Process.GetCurrentProcess().UserProcessorTime;
             for (var i = 0; i < _maxLoops; i++)
                 testAction(_upperRangeLimit);
             var procTime = Process.GetCurrentProcess().UserProcessorTime.Subtract(start);
-            ProcTimes.Add(Tuple.Create(procTime, tag));
+            ProcTimes.Add(Tuple.Create(procTime, testFunctionTitle));
         }
 
 
@@ -84,8 +90,8 @@ namespace FizzBuzz2
         private static readonly string[] Tags =
         {
             @"FizzBuzz", @"Fizz", @"Fizz", @"Fizz", @"Fizz",    // V mod 3 = 0
-            @"Buzz",     @"",     @"",     @"",     @"",        // V mod 3 = 1
-            @"Buzz",     @"",     @"",     @"",     @""         // V mod 3 = 2
+            @"Buzz",     @"{0}",  @"{0}",  @"{0}",  @"{0}",        // V mod 3 = 1
+            @"Buzz",     @"{0}",  @"{0}",  @"{0}",  @"{0}"         // V mod 3 = 2
         };
 
         private static readonly byte[,] TagsIndex =
@@ -95,22 +101,21 @@ namespace FizzBuzz2
             {2, 0, 0, 0, 0}         // V mod 3 = 2
         };
 
-        private static readonly string[] Tags2 = { "", "Fizz", "Buzz", "FizzBuzz" };
+        private static readonly string[] Tags2 = { "{0}", "Fizz", "Buzz", "FizzBuzz" };
 
         private static void EricsFineSolution1(int upperRange)
         {
             // Index directly into the "Tags" table.
             for (var i = 1; i <= upperRange; i++)
-                Console.WriteLine("{0,3} {1}", i, Tags[(i % 3) * 5 + i % 5]);
+                Console.WriteLine(Tags[(i % 3) * 5 + i % 5], i);
         }
 
         private static void EricsFineSolution2(int upperRange)
         {
             // Index into the "Tags2" table via the "TagsIndex" table.
             // Inspired by a suggestion from Sean W.
-            Console.WriteLine();
             for (var i = 1; i <= upperRange; i++)
-                Console.WriteLine("{0,3} {1}", i, Tags2[TagsIndex[i % 3, i % 5]]);
+                Console.WriteLine(Tags2[TagsIndex[i % 3, i % 5]], i);
         }
 
         #endregion
@@ -120,19 +125,18 @@ namespace FizzBuzz2
         private static readonly string[][] Fizzbuzz =
         {
             new[] { "FizzBuzz", "Fizz" },
-            new[] { "Buzz", "" }
+            new[] { "Buzz", "{0}" }
         };
 
         private static void MildlyCleverSolution1(int upperRange)
         {
             // This is another alternative, suggested by Sean W.
-            Console.WriteLine();
             for (var i = 1; i <= upperRange; ++i)
             {
                 Fizzbuzz[1][1] = "" + i;
                 var f = (int)Math.Ceiling((i % 3) / (double) 100);
                 var b = (int)Math.Ceiling((i % 5) / (double) 100);
-                Console.WriteLine(i + ": " + Fizzbuzz[f][b]);
+                Console.WriteLine(Fizzbuzz[f][b], i);
             }
 
         }
@@ -143,14 +147,13 @@ namespace FizzBuzz2
 
         private static readonly string[][] Fizzbuzz2 =
         {
-            new[] { @"{0}: FizzBuzz", @"{0}: Fizz" },
-            new[] { @"{0}: Buzz",     @"{0}: {0}"  }
+            new[] { @"FizzBuzz", @"Fizz" },
+            new[] { @"Buzz",     @"{0}"  }
         };
 
         private static void MildlyCleverSolution2(int upperRange)
         {
             // This is another alternative, suggested by Sean W.
-            Console.WriteLine();
             for (var i = 1; i <= upperRange; ++i)
             {
                 var f = (int)Math.Ceiling((i % 3) / (double)100);
@@ -170,7 +173,6 @@ namespace FizzBuzz2
         {
             var foo = Enumerable.Range(1, upperRange);
 
-            Console.WriteLine();
             foreach (var i in foo)
             {
                 _textArray[3] = i.ToString(CultureInfo.InvariantCulture);
