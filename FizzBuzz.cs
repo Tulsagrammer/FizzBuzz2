@@ -10,6 +10,7 @@ namespace FizzBuzz2
 {
     public interface IFizzBuzz
     {
+        void Run(int upperLimit, int maxLoops);
         void TestStart(string testFunction);
         void TestFinish();
         void TestItem(int value, string tag);
