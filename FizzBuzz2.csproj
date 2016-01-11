@@ -47,6 +47,7 @@
     <Compile Include="FizzBuzz.cs" />
     <Compile Include="HtmlOutput.cs" />
     <Compile Include="IFizzBuzzWriter.cs" />
+    <Compile Include="IFizzBuzzDelegate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

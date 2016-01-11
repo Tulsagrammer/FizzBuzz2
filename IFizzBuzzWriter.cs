@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FizzBuzz2
+﻿namespace FizzBuzz2
 {
-    interface IFizzBuzzWriter
+    public interface IFizzBuzzWriter
     {
         void Run(int upperLimit, int maxLoops);
     }
