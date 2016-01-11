@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace FizzBuzz2
 {
-    public interface IFizzBuzz
+    public interface IFizzBuzzDelegate
     {
-        void Run(int upperLimit, int maxLoops);
         void TestStart(string testFunction);
         void TestFinish();
         void TestItem(int value, string tag);
@@ -28,9 +27,9 @@ namespace FizzBuzz2
         private readonly List<Tuple<TimeSpan, string>>
             _procTimes = new List<Tuple<TimeSpan, string>>();
 
-        private IFizzBuzz _driver;
+        private IFizzBuzzDelegate _driver;
 
-        public void Run(int upperLimit, int maxLoops, IFizzBuzz driver)
+        public void Run(int upperLimit, int maxLoops, IFizzBuzzDelegate driver)
         {
             _upperLimit = upperLimit;
             _maxLoops   = maxLoops;

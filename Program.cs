@@ -47,7 +47,7 @@ namespace FizzBuzz2
             var maxLoops   = Convert.ToInt32(args[1]);
 
             // Collect all of the output writers built into ourself.
-            var type = typeof(IFizzBuzz);
+            var type = typeof(IFizzBuzzWriter);
             var typeList = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p) && p.IsClass)
@@ -55,7 +55,7 @@ namespace FizzBuzz2
 
             // Invoke each writer object to produce some data!
             foreach (var writerType in typeList)
-                ((IFizzBuzz) Activator.CreateInstance(writerType)).Run(upperLimit, maxLoops);
+                ((IFizzBuzzWriter) Activator.CreateInstance(writerType)).Run(upperLimit, maxLoops);
 
             Console.Error.WriteLine();
             Console.Error.Write(@"Press any key to continue...");

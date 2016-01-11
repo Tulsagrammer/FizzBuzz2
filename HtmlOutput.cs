@@ -2,7 +2,7 @@ using System;
 
 namespace FizzBuzz2
 {
-    public class HtmlOutput : IFizzBuzz
+    public class HtmlOutput : IFizzBuzzDelegate, IFizzBuzzWriter
     {
         private int _upperLimit;
         private int _maxLoops;
