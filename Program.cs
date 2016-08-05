@@ -74,14 +74,14 @@ namespace FizzBuzz2
             if (i == 1)
             {
                 Console.WriteLine("<table>");
-                Console.WriteLine("<tr><td>{0}</td></tr>", testFunctionTitle);
+                Console.WriteLine("  <tr><td>{0}</td></tr>", testFunctionTitle);
             }
             Console.WriteLine("  <tr><td>{0}</td><td>{1}</td><tr>", i, tag);
             if (i == _upperRangeLimit)
                 Console.WriteLine("</table>");
         }
 
-        static private void Engine(Action<int, string, string> testResult)
+        static private void Engine(TestResult testResult)
         {
             TestRunner(EricsFineSolution1,    "EricsFineSolution1", testResult);
             TestRunner(EricsFineSolution2,    "EricsFineSolution2", testResult);
@@ -102,7 +102,7 @@ namespace FizzBuzz2
             Console.ReadKey(true);
         }
 
-        private static void TestRunner(Action<int, Action<int, string, string>, string> testAction, string testFunctionTitle, Action<int, string, string> testResult)
+        private static void TestRunner(Action<int, TestResult, string> testAction, string testFunctionTitle, TestResult testResult)
         {
             var start = Process.GetCurrentProcess().UserProcessorTime;
             for (var i = 0; i < _maxLoops; i++)
@@ -130,14 +130,14 @@ namespace FizzBuzz2
 
         private static readonly string[] Tags2 = { "{0}", "Fizz", "Buzz", "FizzBuzz" };
 
-        private static void EricsFineSolution1(int upperRange, Action<int, string, string> testResult, string testFunctionTitle)
+        private static void EricsFineSolution1(int upperRange, TestResult testResult, string testFunctionTitle)
         {
             // Index directly into the "Tags" table.
             for (var i = 1; i <= upperRange; i++)
                 testResult(i, string.Format(Tags[(i % 3) * 5 + i % 5], i), testFunctionTitle);
         }
 
-        private static void EricsFineSolution2(int upperRange, Action<int, string, string> testResult, string testFunctionTitle)
+        private static void EricsFineSolution2(int upperRange, TestResult testResult, string testFunctionTitle)
         {
             // Index into the "Tags2" table via the "TagsIndex" table.
             // Inspired by a suggestion from Sean W.
@@ -155,7 +155,7 @@ namespace FizzBuzz2
             new[] { "Buzz", "{0}" }
         };
 
-        private static void MildlyCleverSolution1(int upperRange, Action<int, string, string> testResult, string testFunctionTitle)
+        private static void MildlyCleverSolution1(int upperRange, TestResult testResult, string testFunctionTitle)
         {
             // This is another alternative, suggested by Sean W.
             for (var i = 1; i <= upperRange; ++i)
@@ -178,7 +178,7 @@ namespace FizzBuzz2
             new[] { @"Buzz",     @"{0}"  }
         };
 
-        private static void MildlyCleverSolution2(int upperRange, Action<int, string, string> testResult, string testFunctionTitle)
+        private static void MildlyCleverSolution2(int upperRange, TestResult testResult, string testFunctionTitle)
         {
             // This is another alternative, suggested by Sean W.
             for (var i = 1; i <= upperRange; ++i)
@@ -196,7 +196,7 @@ namespace FizzBuzz2
 
         private readonly string[] _textArray = { "Beer!!!", "Buzz", "Fizz", "" };
 
-        private void GrotesquelyOverengineeredSolution(int upperRange, Action<int, string, string> testResult, string testFunctionTitle)
+        private void GrotesquelyOverengineeredSolution(int upperRange, TestResult testResult, string testFunctionTitle)
         {
             var foo = Enumerable.Range(1, upperRange);
 
@@ -220,7 +220,7 @@ namespace FizzBuzz2
             return _textArray[a.Item1 + a.Item2];
         }
 
-        private void PrintValue(int i, string text, Action<int, string, string> testResult, string testFunctionTitle)
+        private void PrintValue(int i, string text, TestResult testResult, string testFunctionTitle)
         {
             testResult(i, string.Format("{0}", text), testFunctionTitle);
         }
